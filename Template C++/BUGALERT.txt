@@ -1,0 +1,15 @@
+PL:
+Jest to szkic prototypu projektu gry która będzie projektowana w Godot. 
+Aktualna wersja kodu w szkicu nie jest możliwa do skompilowania i uruchomienia.
+
+Poważny błąd jest w zależnościach plików:
+Fruit.hpp <=> Player_Snake.hpp
+State.hpp <=> Game_Snake.hpp
+
+ANG:
+This is a prototype template of a game project that will be designed in Godot.
+The current version of the code in the template cannot be compiled and run.
+
+There is a serious error in the file dependencies:
+Fruit.hpp <=> Player_Snake.hpp
+State.hpp <=> Game_Snake.hpp
