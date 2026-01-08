@@ -6,7 +6,7 @@ class_name Snake
 #Enkapsulacja zgodnie z konwencja OOP czyli stosujemy _<nazwa zmiennej>
 #Private - konwencja ponieważ GDscript pomimo obiektowości tego nie oferuje
 var _snake_body: Array[Vector2i] = []
-var _dir: directions
+var _dir: Types.directions
 var _grows:= false
 
 #Public
@@ -27,7 +27,7 @@ func set_grows(N_grows) -> void:
 func head() -> Vector2i:
 	return _snake_body[0] if _snake_body.size() > 0 else Vector2i.ZERO
 
-func reset(start_X, start_Y, N_dir = direction.UP) -> void:
+func reset(start_X, start_Y, N_dir = Types.directions.UP) -> void:
 	_snake_body.clear()
 	_snake_body.append(Vector2i(start_X, start_Y))
 	_dir = N_dir #Czy to jest konieczne z argumentu?

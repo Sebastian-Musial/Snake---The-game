@@ -25,8 +25,6 @@ var wall_body: Array[Vector2i] = []
 
 var rng := RandomNumberGenerator.new()
 
-enum directions { UP, DOWN, LEFT, RIGHT }
-
 #Metody
 func draw_board() -> void:
 	tile_map.clear()
