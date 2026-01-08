@@ -17,7 +17,7 @@ func get_body() -> Array[Vector2i]:
 #Set
 #Hybryda z szablonu C++ set dir + try set dir
 func set_dir(N_dir) -> void:
-	if not is_opposite(_dir, N_dir):
+	if not Game_Mechanic.is_opposite(_dir, N_dir):
 		_dir = N_dir
 	
 func set_grows(N_grows) -> void:
@@ -48,10 +48,10 @@ func grows() -> void:
 #Kolizje - Mechanika w kodzie pomimo że godot udostępnia swoje node do kolicji postaci 2D 
 #Metoda ze szkicu C++ - 3 w 1
 func collision() -> void: 
-	var head_snake_pos: Vector2i = snake_body[0] 
+	var head_snake_pos: Vector2i = get_body()[0] 
 #Snake = Wall 
 	if head_snake_pos not in wall_body: print("Brak kolizji_W") 
 #Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
-	if head_snake_pos in snake_body.slice(1): print("Kolizja_S") 
+	if head_snake_pos in get_body().slice(1): print("Kolizja_S") 
 #Snake = Fruit 
-	if head_snake_pos == fruit_body: print("Am...Am...")
+	if head_snake_pos == Fruit.get_body(): print("Am...Am...")
