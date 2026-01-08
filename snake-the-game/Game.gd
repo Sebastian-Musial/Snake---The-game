@@ -21,8 +21,7 @@ var wall_body: Array[Vector2i] = []
 
 var rng := RandomNumberGenerator.new()
 
-
-
+enum direction { UP, DOWN, LEFT, RIGHT }
 
 #Metody
 func draw_board() -> void:
@@ -42,7 +41,7 @@ func init_wall() -> void:
 		wall_body.append(Vector2i(board_width, Y))
 	wall_body.append(Vector2i(board_width, board_height))	
 	
-func draw_wall() -> void:
+func draw_wall() -> void:	#ściany są rysowane poza planszą - w grze nie widać ale matematyka się nie zgadza
 	for segment in wall_body:
 		tile_map.set_cell(0, segment, SOURCE_ID, ATLAS_WALL)
 
@@ -65,7 +64,7 @@ func move_snake() -> void:
 	snake_body.pop_back()			#Kasowanie ogona - ostatniego elementu
 
 
-#Owoc ma już swoj spawn z RNG dla pozycji
+#Owoc ma już swoj spawn z RNG dla pozycji [bug:owov moze sie generowac w scianie]
 func init_fruit() -> void:
 	while true:
 		var pos := Vector2i(rng.randi_range(0, board_width - 1), rng.randi_range(0, board_height - 1))
@@ -76,8 +75,42 @@ func init_fruit() -> void:
 func draw_fruit() -> void:
 	tile_map.set_cell(0, fruit_body, SOURCE_ID, ATLAS_FRUIT)
 	
+#Kolizje - Mechanika w kodzie pomimo że godot udostępnia swoje node do kolicji postaci 2D 
+func collision() -> void: 
+	var head_snake_pos: Vector2i = snake_body[0] 
+#Snake = Wall 
+	if head_snake_pos not in wall_body: print("Brak kolizji_W") 
+#Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
+	if head_snake_pos not in snake_body: print("Brak kolizji_S") 
+#Snake = Fruit 
+	if head_snake_pos == fruit_body: print("Am...Am...")
+	
+#Z template C++ - Game_Mechanic.Is_Opposite 
+static func is_opposite(input_dir: direction, temp_dir: direction) -> bool: 
+	return ( 
+		(input_dir == direction.UP and temp_dir == direction.DOWN) or 
+		(input_dir == direction.DOWN and temp_dir == direction.UP) or 
+		(input_dir == direction.LEFT and temp_dir == direction.RIGHT) or
+		(input_dir == direction.RIGHT and temp_dir == direction.LEFT))
+	
+	
+#Sterowanie - TEST DZIALA
+func _unhandled_input(event):
+	if event is InputEventKey and event.pressed:
+		match event.keycode:
+			Key.KEY_UP: print("Gora")
+			Key.KEY_W: print("Gora")
+			Key.KEY_DOWN: print("Dol")
+			Key.KEY_S: print("Dol")
+			Key.KEY_LEFT: print("Lewo")
+			Key.KEY_A: print("Lewo")
+			Key.KEY_RIGHT: print("Prawo")
+			Key.KEY_D: print("Prawo")
+
+	
 #!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#
 func _ready():
+	
 	rng.randomize()
 	init_snake()
 	init_fruit()
