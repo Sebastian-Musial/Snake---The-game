@@ -1,8 +1,6 @@
 extends Player
 class_name Snake
 
-
-
 #Enkapsulacja zgodnie z konwencja OOP czyli stosujemy _<nazwa zmiennej>
 #Private - konwencja ponieważ GDscript pomimo obiektowości tego nie oferuje
 var _snake_body: Array[Vector2i] = []
@@ -45,13 +43,3 @@ func eat() -> void:
 func grows() -> void:
 	set_grows(true) 
 	
-#Kolizje - Mechanika w kodzie pomimo że godot udostępnia swoje node do kolicji postaci 2D 
-#Metoda ze szkicu C++ - 3 w 1
-func collision() -> void: 
-	var head_snake_pos: Vector2i = get_body()[0] 
-#Snake = Wall 
-	if head_snake_pos not in wall_body: print("Brak kolizji_W") 
-#Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
-	if head_snake_pos in get_body().slice(1): print("Kolizja_S") 
-#Snake = Fruit 
-	if head_snake_pos == Fruit.get_body(): print("Am...Am...")

@@ -66,6 +66,17 @@ func init_fruit() -> void:
 func draw_fruit() -> void:
 	tile_map.set_cell(0, fruit.get_body(), SOURCE_ID, ATLAS_FRUIT)	
 	
+#Kolizje - Mechanika w kodzie pomimo że godot udostępnia swoje node do kolicji postaci 2D 
+#Metoda ze szkicu C++ - 3 w 1
+func collision() -> void: 
+	var head_snake_pos: Vector2i = snake.get_body()[0] 
+#Snake = Wall 
+	if head_snake_pos not in wall.get_body(): print("Brak kolizji_W") 
+#Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
+	if head_snake_pos in snake.get_body().slice(1): print("Kolizja_S") 
+#Snake = Fruit 
+	if head_snake_pos == fruit.get_body(): print("Am...Am...")
+	
 #Sterowanie - TEST DZIALA
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
