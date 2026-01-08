@@ -15,13 +15,13 @@ const ATLAS_FRUIT := Vector2i(0, 3)
 const ATLAS_WALL := Vector2i(3, 0)
 
 #Elementy które będą rysowane
-var snake_body: Array[Vector2i] = []
+
 var fruit_body: Vector2i = Vector2i.ZERO
 var wall_body: Array[Vector2i] = []
 
 var rng := RandomNumberGenerator.new()
 
-enum direction { UP, DOWN, LEFT, RIGHT }
+enum directions { UP, DOWN, LEFT, RIGHT }
 
 #Metody
 func draw_board() -> void:
@@ -74,16 +74,6 @@ func init_fruit() -> void:
 	
 func draw_fruit() -> void:
 	tile_map.set_cell(0, fruit_body, SOURCE_ID, ATLAS_FRUIT)
-	
-#Kolizje - Mechanika w kodzie pomimo że godot udostępnia swoje node do kolicji postaci 2D 
-func collision() -> void: 
-	var head_snake_pos: Vector2i = snake_body[0] 
-#Snake = Wall 
-	if head_snake_pos not in wall_body: print("Brak kolizji_W") 
-#Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
-	if head_snake_pos not in snake_body: print("Brak kolizji_S") 
-#Snake = Fruit 
-	if head_snake_pos == fruit_body: print("Am...Am...")
 	
 #Z template C++ - Game_Mechanic.Is_Opposite 
 static func is_opposite(input_dir: direction, temp_dir: direction) -> bool: 
