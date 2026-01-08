@@ -19,9 +19,7 @@ var snake: Snake
 var fruit: Fruit
 var board: Board
 var rules: Game_Rules
-
-
-var wall_body: Array[Vector2i] = []
+var wall: Wall
 
 var rng := RandomNumberGenerator.new()
 
@@ -32,19 +30,9 @@ func draw_board() -> void:
 	for y in range(board_height):
 		for x in range(board_width):
 			tile_map.set_cell(0, Vector2i(x, y), SOURCE_ID, ATLAS_BG)
-
-func init_wall() -> void:
-	wall_body.clear()
-	for X in range(board_width):
-		wall_body.append(Vector2i(X, 0))
-		wall_body.append(Vector2i(X, board_height - 1))
-	for Y in range(board_height):
-		wall_body.append(Vector2i(0, Y))
-		wall_body.append(Vector2i(board_width - 1, Y))
-	wall_body.append(Vector2i(board_width, board_height))	
 	
 func draw_wall() -> void:	#ściany są rysowane poza planszą - w grze nie widać ale matematyka się nie zgadza
-	for segment in wall_body:
+	for segment in wall.get_body():
 		tile_map.set_cell(0, segment, SOURCE_ID, ATLAS_WALL)
 
 #Aktualnie rysuje się tylko pierwszy segment węża
@@ -102,7 +90,7 @@ func _ready():
 	
 	init_snake()
 	init_fruit()
-	init_wall()
+	wall.init_wall(board_width, board_height)
 	draw_board()
 	draw_wall()
 	draw_snake()
