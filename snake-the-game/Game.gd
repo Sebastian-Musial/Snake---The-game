@@ -73,16 +73,7 @@ func init_fruit() -> void:
 			return
 	
 func draw_fruit() -> void:
-	tile_map.set_cell(0, fruit_body, SOURCE_ID, ATLAS_FRUIT)
-	
-#Z template C++ - Game_Mechanic.Is_Opposite 
-static func is_opposite(input_dir: direction, temp_dir: direction) -> bool: 
-	return ( 
-		(input_dir == direction.UP and temp_dir == direction.DOWN) or 
-		(input_dir == direction.DOWN and temp_dir == direction.UP) or 
-		(input_dir == direction.LEFT and temp_dir == direction.RIGHT) or
-		(input_dir == direction.RIGHT and temp_dir == direction.LEFT))
-	
+	tile_map.set_cell(0, fruit_body, SOURCE_ID, ATLAS_FRUIT)	
 	
 #Sterowanie - TEST DZIALA
 func _unhandled_input(event):
