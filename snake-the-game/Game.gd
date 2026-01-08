@@ -98,6 +98,7 @@ func _ready():
 	fruit = Fruit.new()
 	board = Board.new()
 	rules = Rules_Normal.new()
+	wall = Wall.new()
 	
 	init_snake()
 	init_fruit()
