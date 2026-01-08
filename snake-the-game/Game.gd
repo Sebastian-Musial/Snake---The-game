@@ -16,7 +16,7 @@ const ATLAS_WALL := Vector2i(3, 0)
 
 #Elementy które będą rysowane
 
-var fruit_body: Vector2i = Vector2i.ZERO
+
 var wall_body: Array[Vector2i] = []
 
 var rng := RandomNumberGenerator.new()
