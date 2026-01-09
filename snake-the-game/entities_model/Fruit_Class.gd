@@ -31,3 +31,4 @@ func spawn(board_size: Vector2i, snake_body: Array[Vector2i], rng: RandomNumberG
 			_fruit_body = pos
 			return
 	_exist = false
+	_fruit_body = Vector2i.ZERO
