@@ -6,7 +6,8 @@ class_name Game
 @export var board_width: int = 4
 @export var board_height: int = 4
 @onready var tile_map: TileMap = $TileMap
-@onready var confirm := $ConfirmationDialog
+@onready var lose := $LoseDialog
+@onready var winner := $WinDialog
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
 const SOURCE_ID := 0
@@ -62,7 +63,25 @@ func collision() -> void:
 	if head_snake_pos == fruit.get_body(): 
 		snake.eat()
 		fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
-	
+
+func win():
+	var board_set: Dictionary = {}
+	for x in range(board_width):
+		for y in range(board_height):
+			board_set[Vector2i(x, y)] = true
+			
+	var occupied_set: Dictionary = {}
+	for i in snake.get_body():
+		occupied_set[i] = true
+	for i in wall.get_body():
+		occupied_set[i] = true
+
+	for cell in board_set.keys():	#Sprawdza caly slownik po jego elementach
+		if not occupied_set.has(cell):	#Test czy pole jest zajete 
+			return
+	Turn_Timer.stop()
+	win_popup()
+
 #Sterowanie - TEST DZIALA
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
@@ -104,21 +123,33 @@ func _next_turn() -> void:
 	draw_snake()
 	if(fruit.get_exist()): 
 		draw_fruit()
-	print("Next turn")
-	
+	print("Next turn")	
+	win()
 
 #Sygnał - metoda łącząca Game z timer
 func _on_Turn_Timer_timeout() -> void:
 	_next_turn()
 
 func ask_restart():
-	confirm.dialog_text = "Restartować grę?"
-	confirm.popup_centered()
+	lose.dialog_text = "Restartować grę?"
+	lose.popup_centered()
 
 #Sygnał - metoda łącząca Game z ConfirmationDialog
-func _on_confirmation_dialog_confirmed() -> void:
+func _on_lose_dialog_confirmed() -> void:
 	snake.reset(board_width / 2, board_height / 2)
 	fruit.set_exist(true)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 1.0   # 1000 ms
+
+
+func _on_win_dialog_confirmed() -> void:
+	snake.reset(board_width / 2, board_height / 2)
+	fruit.set_exist(true)
+	Turn_Timer.wait_time = 0.1   # 1000 ms
+	Turn_Timer.start()
+	Turn_Timer.wait_time = 1.0   # 1000 ms
+	
+func win_popup():
+	winner.dialog_text = "WYGRAŁES - Chcesz zagrać jeszcze raz?"
+	winner.popup_centered()
