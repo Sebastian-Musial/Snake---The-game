@@ -58,14 +58,14 @@ func collision() -> void:
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
-			Key.KEY_UP: print("Gora")
-			Key.KEY_W: print("Gora")
-			Key.KEY_DOWN: print("Dol")
-			Key.KEY_S: print("Dol")
-			Key.KEY_LEFT: print("Lewo")
-			Key.KEY_A: print("Lewo")
-			Key.KEY_RIGHT: print("Prawo")
-			Key.KEY_D: print("Prawo")
+			Key.KEY_UP, Key.KEY_W:
+				snake.set_dir(Types.directions.UP)
+			Key.KEY_DOWN, Key.KEY_S: 
+				snake.set_dir(Types.directions.DOWN)
+			Key.KEY_LEFT, Key.KEY_A: 
+				snake.set_dir(Types.directions.LEFT)
+			Key.KEY_RIGHT, Key.KEY_D: 
+				snake.set_dir(Types.directions.RIGHT)
 
 	
 #!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#

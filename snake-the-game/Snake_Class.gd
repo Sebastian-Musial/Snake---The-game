@@ -20,7 +20,7 @@ func init_snake(board_size: Vector2i) -> void:
 	_snake_body.append(Vector2i(int(board_size.x / 2), int(board_size.y / 2)))
 
 #Hybryda z szablonu C++ set dir + try set dir
-func set_dir(N_dir) -> void:
+func set_dir(N_dir: Types.directions) -> void:
 	if not Game_Mechanic.is_opposite(_dir, N_dir):
 		_dir = N_dir
 	
@@ -51,8 +51,13 @@ func grows() -> void:
 	
 #Narazie testowo głowa się przesuwa w prawo 
 func move_snake() -> void:
-	var head := get_body()[0]
-	var new_head := head + Vector2i(1, 0) # w prawo
-	
-	get_body().insert(0, new_head)	#Nowa głowa
-	get_body().remove_at(get_body().size() - 1)			#Kasowanie ogona - ostatniego elementu
+	var temp := Vector2i.ZERO
+	match _dir:
+		Types.directions.UP: temp = Vector2i(0, -1)
+		Types.directions.DOWN: temp = Vector2i(0, 1)
+		Types.directions.RIGHT: temp = Vector2i(1, 0)
+		Types.directions.LEFT: temp = Vector2i(-1, 0)
+	#var new_head := head + Vector2i(1, 0) # w prawo
+	var new_head := _snake_body[0] + temp
+	_snake_body.push_front(new_head)	#Nowa głowa
+	_snake_body.pop_back()	#Kasuj ogon
