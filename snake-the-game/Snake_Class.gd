@@ -5,12 +5,16 @@ class_name Snake
 #Private - konwencja ponieważ GDscript pomimo obiektowości tego nie oferuje
 var _snake_body: Array[Vector2i] = []
 var _dir: Types.directions
+var _pending_dir: Types.directions
 var _grows:= false
 
 #Public
 #Get
 func get_body() -> Array[Vector2i]:
 	return _snake_body 
+	
+func get_dir() -> Types.directions:
+	return _dir
 	
 #Set
 #Init
@@ -52,6 +56,7 @@ func grows() -> void:
 #Narazie testowo głowa się przesuwa w prawo 
 func move_snake() -> void:
 	var temp := Vector2i.ZERO
+	_dir = _pending_dir
 	match _dir:
 		Types.directions.UP: temp = Vector2i(0, -1)
 		Types.directions.DOWN: temp = Vector2i(0, 1)
@@ -61,3 +66,12 @@ func move_snake() -> void:
 	var new_head := _snake_body[0] + temp
 	_snake_body.push_front(new_head)	#Nowa głowa
 	_snake_body.pop_back()	#Kasuj ogon
+
+func request_dir(N_dir: Types.directions) -> void:
+	if _pending_dir != _dir:
+		return
+	
+	if Game_Mechanic.is_opposite(_dir, N_dir):
+		return
+		
+	_pending_dir = N_dir

@@ -68,13 +68,13 @@ func _unhandled_input(event):
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			Key.KEY_UP, Key.KEY_W:
-				snake.set_dir(Types.directions.UP)
+				snake.request_dir(Types.directions.UP)
 			Key.KEY_DOWN, Key.KEY_S: 
-				snake.set_dir(Types.directions.DOWN)
+				snake.request_dir(Types.directions.DOWN)
 			Key.KEY_LEFT, Key.KEY_A: 
-				snake.set_dir(Types.directions.LEFT)
+				snake.request_dir(Types.directions.LEFT)
 			Key.KEY_RIGHT, Key.KEY_D: 
-				snake.set_dir(Types.directions.RIGHT)
+				snake.request_dir(Types.directions.RIGHT)
 	
 #!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#
 func _ready():
@@ -92,7 +92,7 @@ func _ready():
 	draw_wall()
 	draw_snake()
 	draw_fruit()
-	Turn_Timer.wait_time = 1.0   # 1000 ms
+	Turn_Timer.wait_time = 1.5   # 1000 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
 
