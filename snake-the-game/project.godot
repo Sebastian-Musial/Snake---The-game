@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Snake the game"
-run/main_scene="res://Game.tscn"
+run/main_scene="res://game/Game.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 

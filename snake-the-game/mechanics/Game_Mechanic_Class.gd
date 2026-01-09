@@ -11,19 +11,19 @@ class_name Game_Mechanic
 static func next_move(act_pos: Vector2i, dir) -> Vector2i:
 	var next_pos := act_pos
 	match dir:
-		direction.UP:
+		Types.directions.UP:
 			next_pos.y = act_pos.y - 1 
-		direction.DOWN:
+		Types.directions.DOWN:
 			next_pos.y = act_pos.y + 1 
-		direction.LEFT:
+		Types.directions.LEFT:
 			next_pos.x = act_pos.x - 1
-		direction.RIGHT:
+		Types.directions.RIGHT:
 			next_pos.x = act_pos.x + 1
 	return next_pos
 	
-static func is_opposite(input_dir: direction, temp_dir: direction) -> bool: 
+static func is_opposite(input_dir: Types.directions, temp_dir: Types.directions) -> bool: 
 	return ( 
-		(input_dir == direction.UP and temp_dir == direction.DOWN) or 
-		(input_dir == direction.DOWN and temp_dir == direction.UP) or 
-		(input_dir == direction.LEFT and temp_dir == direction.RIGHT) or
-		(input_dir == direction.RIGHT and temp_dir == direction.LEFT))
+		(input_dir == Types.directions.UP and temp_dir == Types.directions.DOWN) or 
+		(input_dir == Types.directions.DOWN and temp_dir == Types.directions.UP) or 
+		(input_dir == Types.directions.LEFT and temp_dir == Types.directions.RIGHT) or
+		(input_dir == Types.directions.RIGHT and temp_dir == Types.directions.LEFT))

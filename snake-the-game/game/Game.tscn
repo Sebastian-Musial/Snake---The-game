@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bky4btmnfk6lq"]
+[gd_scene load_steps=5 format=3 uid="uid://d1vngybyiyqlq"]
 
-[ext_resource type="Script" uid="uid://bnxxtcbqhivxc" path="res://Game.gd" id="1_wbfu4"]
-[ext_resource type="Texture2D" uid="uid://du57ct4t1rwkl" path="res://TEST_Tiles.png" id="2_xkndl"]
+[ext_resource type="Script" uid="uid://dep2hg8wkwgea" path="res://game/Game.gd" id="1_qdja7"]
+[ext_resource type="Texture2D" uid="uid://du57ct4t1rwkl" path="res://TEST_Tiles.png" id="2_m71xk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u44n3"]
-texture = ExtResource("2_xkndl")
+texture = ExtResource("2_m71xk")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -26,9 +26,7 @@ texture = ExtResource("2_xkndl")
 sources/0 = SubResource("TileSetAtlasSource_u44n3")
 
 [node name="Game - Node2D" type="Node2D"]
-script = ExtResource("1_wbfu4")
-board_width = null
-board_height = null
+script = ExtResource("1_qdja7")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_sb48q")
@@ -36,4 +34,10 @@ format = 2
 
 [node name="TurnTimer" type="Timer" parent="."]
 
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+oversampling_override = 1.0
+ok_button_text = "Tak"
+cancel_button_text = "Nie"
+
 [connection signal="timeout" from="TurnTimer" to="." method="_on_Turn_Timer_timeout"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
