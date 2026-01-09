@@ -6,6 +6,7 @@ class_name Game
 @export var board_width: int = 20
 @export var board_height: int = 20
 @onready var tile_map: TileMap = $TileMap
+@onready var confirm := $ConfirmationDialog
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
 const SOURCE_ID := 0
@@ -50,11 +51,13 @@ func collision() -> void:
 #Snake = Wall 
 	if head_snake_pos in wall.get_body(): 
 		Turn_Timer.stop()
+		ask_restart()
 		#Turn_Timer.one_shot = true  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz 
 #Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
 	if head_snake_pos in snake.get_body().slice(1): 
 		Turn_Timer.stop()
-		Turn_Timer.one_shot = true  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz 
+		ask_restart()
+		#Turn_Timer.one_shot = true  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz 
 #Snake = Fruit 
 	if head_snake_pos == fruit.get_body(): 
 		snake.eat()
@@ -72,7 +75,6 @@ func _unhandled_input(event):
 				snake.set_dir(Types.directions.LEFT)
 			Key.KEY_RIGHT, Key.KEY_D: 
 				snake.set_dir(Types.directions.RIGHT)
-
 	
 #!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#
 func _ready():
@@ -107,3 +109,14 @@ func _next_turn() -> void:
 #Sygnał - metoda łącząca Game z timer
 func _on_Turn_Timer_timeout() -> void:
 	_next_turn()
+
+func ask_restart():
+	confirm.dialog_text = "Restartować grę?"
+	confirm.popup_centered()
+
+#Sygnał - metoda łącząca Game z ConfirmationDialog
+func _on_confirmation_dialog_confirmed() -> void:
+	snake.reset(board_width / 2, board_height / 2)
+	Turn_Timer.wait_time = 0.1   # 1000 ms
+	Turn_Timer.start()
+	Turn_Timer.wait_time = 1.0   # 1000 ms
