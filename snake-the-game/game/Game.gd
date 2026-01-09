@@ -3,11 +3,12 @@ class_name Game
 #Zmienna typu Timer odwołującą się do node TurnTimer
 @onready var Turn_Timer: Timer = $TurnTimer
 
-@export var board_width: int = 4
-@export var board_height: int = 4
+@export var board_width: int = 16
+@export var board_height: int = 16
 @onready var tile_map: TileMap = $TileMap
 @onready var lose := $LoseDialog
 @onready var winner := $WinDialog
+
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
 const SOURCE_ID := 0
@@ -111,11 +112,12 @@ func _ready():
 	draw_wall()
 	draw_snake()
 	draw_fruit()
-	Turn_Timer.wait_time = 1.0   # 1000 ms
+	Turn_Timer.wait_time = 0.8   # 800 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
 
 func _next_turn() -> void:
+	print("Next turn")	
 	snake.move_snake()
 	collision()
 	draw_board()
@@ -123,8 +125,9 @@ func _next_turn() -> void:
 	draw_snake()
 	if(fruit.get_exist()): 
 		draw_fruit()
-	print("Next turn")	
 	win()
+
+
 
 #Sygnał - metoda łącząca Game z timer
 func _on_Turn_Timer_timeout() -> void:
@@ -142,13 +145,19 @@ func _on_lose_dialog_confirmed() -> void:
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 1.0   # 1000 ms
 
+func _on_lose_dialog_canceled() -> void:
+	get_tree().quit()
 
 func _on_win_dialog_confirmed() -> void:
 	snake.reset(board_width / 2, board_height / 2)
 	fruit.set_exist(true)
+	fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 1.0   # 1000 ms
+	
+func _on_win_dialog_canceled() -> void:
+	get_tree().quit()
 	
 func win_popup():
 	winner.dialog_text = "WYGRAŁES - Chcesz zagrać jeszcze raz?"

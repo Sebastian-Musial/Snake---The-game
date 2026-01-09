@@ -37,10 +37,14 @@ format = 2
 [node name="LoseDialog" type="ConfirmationDialog" parent="."]
 oversampling_override = 1.0
 ok_button_text = "Tak"
-cancel_button_text = "Nie"
+cancel_button_text = "Nie - Wyjdź z gry"
 
 [node name="WinDialog" type="ConfirmationDialog" parent="."]
+ok_button_text = "Tak"
+cancel_button_text = "Nie - Wyjdź z gry"
 
 [connection signal="timeout" from="TurnTimer" to="." method="_on_Turn_Timer_timeout"]
-[connection signal="confirmed" from="LoseDialog" to="." method="_on_confirmation_dialog_confirmed"]
+[connection signal="canceled" from="LoseDialog" to="." method="_on_lose_dialog_canceled"]
+[connection signal="confirmed" from="LoseDialog" to="." method="_on_lose_dialog_confirmed"]
+[connection signal="canceled" from="WinDialog" to="." method="_on_win_dialog_canceled"]
 [connection signal="confirmed" from="WinDialog" to="." method="_on_win_dialog_confirmed"]
