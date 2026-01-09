@@ -102,7 +102,8 @@ func _next_turn() -> void:
 	draw_board()
 	draw_wall()
 	draw_snake()
-	draw_fruit()
+	if(fruit.get_exist()): 
+		draw_fruit()
 	print("Next turn")
 	
 
@@ -117,6 +118,7 @@ func ask_restart():
 #Sygnał - metoda łącząca Game z ConfirmationDialog
 func _on_confirmation_dialog_confirmed() -> void:
 	snake.reset(board_width / 2, board_height / 2)
+	fruit.set_exist(true)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 1.0   # 1000 ms
