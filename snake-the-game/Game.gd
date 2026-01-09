@@ -35,33 +35,10 @@ func draw_wall() -> void:	#ściany są rysowane poza planszą - w grze nie wida�
 	for segment in wall.get_body():
 		tile_map.set_cell(0, segment, SOURCE_ID, ATLAS_WALL)
 
-#Aktualnie rysuje się tylko pierwszy segment węża
-func init_snake() -> void:
-	snake.get_body().clear()
-	snake.get_body().append(Vector2i(int(board_width / 2), int(board_height / 2)))
-
 func draw_snake() -> void:
 	var body := snake.get_body()
 	for segment in body:
 		tile_map.set_cell(0, segment, SOURCE_ID, ATLAS_SNAKE)
-
-
-#Narazie testowo głowa się przesuwa w prawo 
-func move_snake() -> void:
-	var head := snake.get_body()[0]
-	var new_head := head + Vector2i(1, 0) # w prawo
-	
-	snake.get_body().insert(0, new_head)	#Nowa głowa
-	snake.get_body().remove_at(snake.get_body().size() - 1)			#Kasowanie ogona - ostatniego elementu
-
-
-#Owoc ma już swoj spawn z RNG dla pozycji [bug:owov moze sie generowac w scianie]
-func init_fruit() -> void:
-	while true:
-		var pos := Vector2i(rng.randi_range(0, board_width - 1), rng.randi_range(0, board_height - 1))
-		if pos not in snake.get_body():
-			fruit.set_body(pos)
-			return
 	
 func draw_fruit() -> void:
 	tile_map.set_cell(0, fruit.get_body(), SOURCE_ID, ATLAS_FRUIT)	
@@ -100,8 +77,8 @@ func _ready():
 	rules = Rules_Normal.new()
 	wall = Wall.new()
 	
-	init_snake()
-	init_fruit()
+	snake.init_snake(Vector2i(board_width, board_height))
+	fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
 	wall.init_wall(board_width, board_height)
 	draw_board()
 	draw_wall()
@@ -112,7 +89,7 @@ func _ready():
 	Turn_Timer.start()           #Start odliczania czasu
 
 func _next_turn() -> void:
-	move_snake()
+	snake.move_snake()
 	draw_board()
 	draw_wall()
 	draw_snake()
