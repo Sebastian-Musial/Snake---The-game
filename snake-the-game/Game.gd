@@ -48,11 +48,17 @@ func draw_fruit() -> void:
 func collision() -> void: 
 	var head_snake_pos: Vector2i = snake.get_body()[0] 
 #Snake = Wall 
-	if head_snake_pos not in wall.get_body(): print("Brak kolizji_W") 
+	if head_snake_pos in wall.get_body(): 
+		Turn_Timer.stop()
+		#Turn_Timer.one_shot = true  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz 
 #Snake = Snake [Brak wyjątku gdzie głowa to tez ciało]
-	if head_snake_pos in snake.get_body().slice(1): print("Kolizja_S") 
+	if head_snake_pos in snake.get_body().slice(1): 
+		Turn_Timer.stop()
+		Turn_Timer.one_shot = true  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz 
 #Snake = Fruit 
-	if head_snake_pos == fruit.get_body(): print("Am...Am...")
+	if head_snake_pos == fruit.get_body(): 
+		snake.eat()
+		fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
 	
 #Sterowanie - TEST DZIALA
 func _unhandled_input(event):
@@ -90,6 +96,7 @@ func _ready():
 
 func _next_turn() -> void:
 	snake.move_snake()
+	collision()
 	draw_board()
 	draw_wall()
 	draw_snake()
