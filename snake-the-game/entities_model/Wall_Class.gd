@@ -23,4 +23,4 @@ func init_wall(board_width, board_height) -> void:
 	for Y in range(board_height):
 		_wall_body.append(Vector2i(0, Y))
 		_wall_body.append(Vector2i(board_width - 1, Y))
-	_wall_body.append(Vector2i(board_width, board_height))	
+		

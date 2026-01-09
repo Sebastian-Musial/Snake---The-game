@@ -19,8 +19,8 @@ func spawn(board_size: Vector2i, snake_body: Array[Vector2i], rng: RandomNumberG
 	#Tutaj zapewne vector2i dla board - chwilowy szkic metody
 	while true:
 		var pos := Vector2i(
-			rng.randi_range(0, board_size.x - 1), 
-			rng.randi_range(0, board_size.y - 1))
+			rng.randi_range(1, board_size.x - 2), 
+			rng.randi_range(1, board_size.y - 2))
 		if pos not in snake_body:
 			_fruit_body = pos
 			return
