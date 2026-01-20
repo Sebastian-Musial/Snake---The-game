@@ -74,6 +74,10 @@ volume_db = -10.495
 autoplay = true
 parameters/looping = true
 
+[node name="Score" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [connection signal="timeout" from="TurnTimer" to="." method="_on_Turn_Timer_timeout"]
 [connection signal="canceled" from="LoseDialog" to="." method="_on_lose_dialog_canceled"]
 [connection signal="confirmed" from="LoseDialog" to="." method="_on_lose_dialog_confirmed"]

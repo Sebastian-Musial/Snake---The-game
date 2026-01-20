@@ -64,6 +64,7 @@ func collision() -> void:
 	if head_snake_pos == fruit.get_body(): 
 		snake.eat()
 		fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
+		snake.add_one_point()
 
 func win():
 	var board_set: Dictionary = {}
@@ -112,6 +113,8 @@ func _ready():
 	draw_wall()
 	draw_snake()
 	draw_fruit()
+	snake.reset_score()
+	$Score.text = "Score: %d" % snake.get_score()
 	Turn_Timer.wait_time = 0.5   # 500 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
@@ -123,6 +126,7 @@ func _next_turn() -> void:
 	draw_board()
 	draw_wall()
 	draw_snake()
+	$Score.text = "Score: %d" % snake.get_score()
 	if(fruit.get_exist()): 
 		draw_fruit()
 	win()
@@ -146,6 +150,7 @@ func _on_lose_dialog_confirmed() -> void:
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 0.5   # 500 ms
 	$AudioStreamPlayer.play()
+	snake.reset_score()
 
 func _on_lose_dialog_canceled() -> void:
 	get_tree().quit()
@@ -158,6 +163,7 @@ func _on_win_dialog_confirmed() -> void:
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 0.5   # 500 ms
 	$AudioStreamPlayer.play()
+	snake.reset_score()
 	
 func _on_win_dialog_canceled() -> void:
 	get_tree().quit()
