@@ -112,7 +112,7 @@ func _ready():
 	draw_wall()
 	draw_snake()
 	draw_fruit()
-	Turn_Timer.wait_time = 0.8   # 800 ms
+	Turn_Timer.wait_time = 0.5   # 800 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
 
