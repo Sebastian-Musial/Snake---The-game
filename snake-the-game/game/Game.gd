@@ -11,11 +11,11 @@ class_name Game
 
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
-const SOURCE_ID := 0
-const ATLAS_BG := Vector2i(3, 3)
+const SOURCE_ID := 1
+const ATLAS_BG := Vector2i(1, 1)
 const ATLAS_SNAKE := Vector2i(0, 0)
-const ATLAS_FRUIT := Vector2i(0, 3)
-const ATLAS_WALL := Vector2i(3, 0)
+const ATLAS_FRUIT := Vector2i(1, 0)
+const ATLAS_WALL := Vector2i(2, 0)
 
 #Tworzenie obiektów z moich klas
 var snake: Snake
@@ -112,7 +112,7 @@ func _ready():
 	draw_wall()
 	draw_snake()
 	draw_fruit()
-	Turn_Timer.wait_time = 0.5   # 800 ms
+	Turn_Timer.wait_time = 0.5   # 500 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
 
@@ -143,7 +143,7 @@ func _on_lose_dialog_confirmed() -> void:
 	fruit.set_exist(true)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
-	Turn_Timer.wait_time = 1.0   # 1000 ms
+	Turn_Timer.wait_time = 0.5   # 500 ms
 
 func _on_lose_dialog_canceled() -> void:
 	get_tree().quit()
@@ -154,7 +154,7 @@ func _on_win_dialog_confirmed() -> void:
 	fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
-	Turn_Timer.wait_time = 1.0   # 1000 ms
+	Turn_Timer.wait_time = 0.5   # 500 ms
 	
 func _on_win_dialog_canceled() -> void:
 	get_tree().quit()
