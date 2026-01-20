@@ -134,6 +134,7 @@ func _on_Turn_Timer_timeout() -> void:
 	_next_turn()
 
 func ask_restart():
+	$AudioStreamPlayer.stop()
 	lose.dialog_text = "Restartować grę?"
 	lose.popup_centered()
 
@@ -144,6 +145,7 @@ func _on_lose_dialog_confirmed() -> void:
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 0.5   # 500 ms
+	$AudioStreamPlayer.play()
 
 func _on_lose_dialog_canceled() -> void:
 	get_tree().quit()
@@ -155,10 +157,12 @@ func _on_win_dialog_confirmed() -> void:
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = 0.5   # 500 ms
+	$AudioStreamPlayer.play()
 	
 func _on_win_dialog_canceled() -> void:
 	get_tree().quit()
 	
 func win_popup():
+	$AudioStreamPlayer.stop()
 	winner.dialog_text = "WYGRAŁES - Chcesz zagrać jeszcze raz?"
 	winner.popup_centered()
