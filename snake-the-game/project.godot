@@ -11,14 +11,18 @@ config_version=5
 [application]
 
 config/name="Snake the game"
-run/main_scene="res://game/Game.tscn"
+run/main_scene="uid://dko4bbhcwtpyl"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+AudioMenuManager="*res://AudioMenuManager.tscn"
+
 [display]
 
-window/size/viewport_width=256
-window/size/viewport_height=256
+window/size/viewport_width=512
+window/size/viewport_height=512
 window/stretch/mode="canvas_items"
 
 [input]

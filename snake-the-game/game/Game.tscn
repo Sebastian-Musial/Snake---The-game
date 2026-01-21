@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1vngybyiyqlq"]
+[gd_scene load_steps=8 format=3 uid="uid://d1vngybyiyqlq"]
 
 [ext_resource type="Script" uid="uid://dep2hg8wkwgea" path="res://game/Game.gd" id="1_qdja7"]
 [ext_resource type="Texture2D" uid="uid://du57ct4t1rwkl" path="res://TEST_Tiles.png" id="2_m71xk"]
+[ext_resource type="Texture2D" uid="uid://bekksy4a4fd6q" path="res://Graphic.png" id="3_i75et"]
+[ext_resource type="AudioStream" uid="uid://dw6d7x1jkbjva" path="res://Game 120 BPM.ogg" id="3_m71xk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u44n3"]
 texture = ExtResource("2_m71xk")
+use_texture_padding = false
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -22,8 +25,30 @@ texture = ExtResource("2_m71xk")
 2:3/0 = 0
 3:3/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_adwu5"]
+texture = ExtResource("3_i75et")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_sb48q"]
+tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_u44n3")
+sources/1 = SubResource("TileSetAtlasSource_adwu5")
 
 [node name="Game - Node2D" type="Node2D"]
 script = ExtResource("1_qdja7")
@@ -42,6 +67,16 @@ cancel_button_text = "Nie - Wyjdź z gry"
 [node name="WinDialog" type="ConfirmationDialog" parent="."]
 ok_button_text = "Tak"
 cancel_button_text = "Nie - Wyjdź z gry"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_m71xk")
+volume_db = -10.495
+autoplay = true
+parameters/looping = true
+
+[node name="Score" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="timeout" from="TurnTimer" to="." method="_on_Turn_Timer_timeout"]
 [connection signal="canceled" from="LoseDialog" to="." method="_on_lose_dialog_canceled"]

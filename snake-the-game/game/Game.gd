@@ -11,11 +11,11 @@ class_name Game
 
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
-const SOURCE_ID := 0
-const ATLAS_BG := Vector2i(3, 3)
+const SOURCE_ID := 1
+const ATLAS_BG := Vector2i(1, 1)
 const ATLAS_SNAKE := Vector2i(0, 0)
-const ATLAS_FRUIT := Vector2i(0, 3)
-const ATLAS_WALL := Vector2i(3, 0)
+const ATLAS_FRUIT := Vector2i(1, 0)
+const ATLAS_WALL := Vector2i(2, 0)
 
 #Tworzenie obiektów z moich klas
 var snake: Snake
@@ -64,6 +64,7 @@ func collision() -> void:
 	if head_snake_pos == fruit.get_body(): 
 		snake.eat()
 		fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
+		snake.add_one_point()
 
 func win():
 	var board_set: Dictionary = {}
@@ -98,6 +99,7 @@ func _unhandled_input(event):
 	
 #!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#
 func _ready():
+	AudioMenuManager.stop_music()
 	rng.randomize()	
 	snake = Snake.new()
 	fruit = Fruit.new()
@@ -112,7 +114,9 @@ func _ready():
 	draw_wall()
 	draw_snake()
 	draw_fruit()
-	Turn_Timer.wait_time = 0.8   # 800 ms
+	snake.reset_score()
+	$Score.text = "Score: %d" % snake.get_score()
+	Turn_Timer.wait_time = 0.5   # 500 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
 
@@ -123,6 +127,7 @@ func _next_turn() -> void:
 	draw_board()
 	draw_wall()
 	draw_snake()
+	$Score.text = "Score: %d" % snake.get_score()
 	if(fruit.get_exist()): 
 		draw_fruit()
 	win()
@@ -134,6 +139,7 @@ func _on_Turn_Timer_timeout() -> void:
 	_next_turn()
 
 func ask_restart():
+	$AudioStreamPlayer.stop()
 	lose.dialog_text = "Restartować grę?"
 	lose.popup_centered()
 
@@ -143,7 +149,9 @@ func _on_lose_dialog_confirmed() -> void:
 	fruit.set_exist(true)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
-	Turn_Timer.wait_time = 1.0   # 1000 ms
+	Turn_Timer.wait_time = 0.5   # 500 ms
+	$AudioStreamPlayer.play()
+	snake.reset_score()
 
 func _on_lose_dialog_canceled() -> void:
 	get_tree().quit()
@@ -154,11 +162,14 @@ func _on_win_dialog_confirmed() -> void:
 	fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
-	Turn_Timer.wait_time = 1.0   # 1000 ms
+	Turn_Timer.wait_time = 0.5   # 500 ms
+	$AudioStreamPlayer.play()
+	snake.reset_score()
 	
 func _on_win_dialog_canceled() -> void:
 	get_tree().quit()
 	
 func win_popup():
+	$AudioStreamPlayer.stop()
 	winner.dialog_text = "WYGRAŁES - Chcesz zagrać jeszcze raz?"
 	winner.popup_centered()

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b2lan8che83jf"
+path="res://.godot/imported/Game 60 BPM.ogg-6385a5f7548c49f0bb7f44e401771926.oggvorbisstr"
+
+[deps]
+
+source_file="res://Game 60 BPM.ogg"
+dest_files=["res://.godot/imported/Game 60 BPM.ogg-6385a5f7548c49f0bb7f44e401771926.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

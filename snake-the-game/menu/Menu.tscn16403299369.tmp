@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://dko4bbhcwtpyl"]
+
+[ext_resource type="Script" uid="uid://blmac8my82c1i" path="res://menu/Main_Menu.gd" id="1_su865"]
+[ext_resource type="Texture2D" uid="uid://bfawgbxxgaiek" path="res://Menu.png" id="2_7480j"]
+[ext_resource type="Texture2D" uid="uid://b7s6qa8788rsi" path="res://Tittle.png" id="3_8010q"]
+[ext_resource type="AudioStream" uid="uid://dh43kos20aotl" path="res://Menu.ogg" id="4_a4lia"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_su865")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_top = 182.0
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Background" type="Sprite2D" parent="CenterContainer/VBoxContainer"]
+position = Vector2(36, -36)
+texture = ExtResource("2_7480j")
+
+[node name="Play" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Start game"
+
+[node name="Options" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Options"
+
+[node name="Author" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Author"
+
+[node name="Exit" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Exit"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(255, 258)
+texture = ExtResource("3_8010q")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_a4lia")
+autoplay = true
+parameters/looping = true
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Author" to="." method="_on_author_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]
