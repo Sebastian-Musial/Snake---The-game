@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6y63fp8746q4"]
+[gd_scene load_steps=3 format=3 uid="uid://c6y63fp8746q4"]
 
 [ext_resource type="Script" uid="uid://ty3atxo6edsv" path="res://menu/M_options.gd" id="1_dr4s1"]
+[ext_resource type="Texture2D" uid="uid://bfawgbxxgaiek" path="res://Menu.png" id="2_qkvbh"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -11,10 +12,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dr4s1")
 
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(256, 256)
+texture = ExtResource("2_qkvbh")
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 512.0
+offset_bottom = 512.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2

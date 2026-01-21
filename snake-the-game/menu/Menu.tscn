@@ -27,7 +27,7 @@ offset_bottom = 512.0
 layout_mode = 2
 
 [node name="Background" type="Sprite2D" parent="CenterContainer/VBoxContainer"]
-position = Vector2(36, -36)
+position = Vector2(36, -35)
 texture = ExtResource("2_7480j")
 
 [node name="Play" type="Button" parent="CenterContainer/VBoxContainer"]
