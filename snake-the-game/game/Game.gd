@@ -99,6 +99,7 @@ func _unhandled_input(event):
 	
 #!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#
 func _ready():
+	AudioMenuManager.stop_music()
 	rng.randomize()	
 	snake = Snake.new()
 	fruit = Fruit.new()

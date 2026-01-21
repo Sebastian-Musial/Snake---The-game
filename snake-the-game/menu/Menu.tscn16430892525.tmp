@@ -15,7 +15,6 @@ offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_su865")
-menu_music = ExtResource("4_a4lia")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 0
@@ -53,6 +52,11 @@ text = "Exit"
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(255, 258)
 texture = ExtResource("3_8010q")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_a4lia")
+autoplay = true
+parameters/looping = true
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
