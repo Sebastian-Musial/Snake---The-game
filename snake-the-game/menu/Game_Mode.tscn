@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://bghxves6d0niy"]
+
+[ext_resource type="Script" uid="uid://bnuuewfxf47cw" path="res://menu/M_Game_Mode.gd" id="1_buc6u"]
+[ext_resource type="Texture2D" uid="uid://bfawgbxxgaiek" path="res://Menu.png" id="2_1pmaf"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_buc6u")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(256, 256)
+texture = ExtResource("2_1pmaf")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Normal" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Normal game"
+
+[node name="Hard" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Hard game"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Normal" to="." method="_on_normal_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Hard" to="." method="_on_hard_pressed"]

@@ -2,13 +2,12 @@ extends Node2D
 class_name Game
 #Zmienna typu Timer odwołującą się do node TurnTimer
 @onready var Turn_Timer: Timer = $TurnTimer
-
-@export var board_width: int = 16
-@export var board_height: int = 16
 @onready var tile_map: TileMap = $TileMap
 @onready var lose := $LoseDialog
 @onready var winner := $WinDialog
 
+@onready var music_N: AudioStreamPlayer = $Normal
+@onready var music_H: AudioStreamPlayer = $Hard
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
 const SOURCE_ID := 1
@@ -30,8 +29,8 @@ var rng := RandomNumberGenerator.new()
 func draw_board() -> void:
 	tile_map.clear()
 	
-	for y in range(board_height):
-		for x in range(board_width):
+	for y in range(board.get_height()):
+		for x in range(board.get_width()):
 			tile_map.set_cell(0, Vector2i(x, y), SOURCE_ID, ATLAS_BG)
 	
 func draw_wall() -> void:	#ściany są rysowane poza planszą - w grze nie widać ale matematyka się nie zgadza
@@ -63,13 +62,13 @@ func collision() -> void:
 #Snake = Fruit 
 	if head_snake_pos == fruit.get_body(): 
 		snake.eat()
-		fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
+		fruit.spawn(Vector2i(board.get_width(), board.get_height()), snake.get_body(), rng)
 		snake.add_one_point()
 
 func win():
 	var board_set: Dictionary = {}
-	for x in range(board_width):
-		for y in range(board_height):
+	for x in range(board.get_width()):
+		for y in range(board.get_height()):
 			board_set[Vector2i(x, y)] = true
 			
 	var occupied_set: Dictionary = {}
@@ -101,22 +100,28 @@ func _unhandled_input(event):
 func _ready():
 	AudioMenuManager.stop_music()
 	rng.randomize()	
+	rules = GState.rules
+	if GState.rules.get_turn_time() == 0.5:
+		music_H.play()
+	if GState.rules.get_turn_time() == 1.0:
+		music_N.play()
+	board = Board.new()
+	board.set_size(rules.get_board_size())
 	snake = Snake.new()
 	fruit = Fruit.new()
-	board = Board.new()
-	rules = Rules_Normal.new()
 	wall = Wall.new()
 	
-	snake.init_snake(Vector2i(board_width, board_height))
-	fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
-	wall.init_wall(board_width, board_height)
+	
+	snake.init_snake(Vector2i(board.get_width(), board.get_height()))
+	fruit.spawn(Vector2i(board.get_width(), board.get_height()), snake.get_body(), rng)
+	wall.init_wall(board.get_width(), board.get_height())
 	draw_board()
 	draw_wall()
 	draw_snake()
 	draw_fruit()
 	snake.reset_score()
 	$Score.text = "Score: %d" % snake.get_score()
-	Turn_Timer.wait_time = 0.5   # 500 ms
+	Turn_Timer.wait_time = rules.get_turn_time()   # 500 ms
 	Turn_Timer.one_shot = false  # Timer powtarzalny - Gdyby True to wywołał by się tylko raz
 	Turn_Timer.start()           #Start odliczania czasu
 
@@ -132,8 +137,6 @@ func _next_turn() -> void:
 		draw_fruit()
 	win()
 
-
-
 #Sygnał - metoda łącząca Game z timer
 func _on_Turn_Timer_timeout() -> void:
 	_next_turn()
@@ -145,11 +148,11 @@ func ask_restart():
 
 #Sygnał - metoda łącząca Game z ConfirmationDialog
 func _on_lose_dialog_confirmed() -> void:
-	snake.reset(board_width / 2, board_height / 2)
+	snake.reset(board.get_width() / 2, board.get_height() / 2)
 	fruit.set_exist(true)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
-	Turn_Timer.wait_time = 0.5   # 500 ms
+	Turn_Timer.wait_time = rules.get_turn_time()  
 	$AudioStreamPlayer.play()
 	snake.reset_score()
 
@@ -157,12 +160,12 @@ func _on_lose_dialog_canceled() -> void:
 	get_tree().quit()
 
 func _on_win_dialog_confirmed() -> void:
-	snake.reset(board_width / 2, board_height / 2)
+	snake.reset(board.get_width() / 2, board.get_height() / 2)
 	fruit.set_exist(true)
-	fruit.spawn(Vector2i(board_width, board_height), snake.get_body(), rng)
+	fruit.spawn(Vector2i(board.get_width(), board.get_height()), snake.get_body(), rng)
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
-	Turn_Timer.wait_time = 0.5   # 500 ms
+	Turn_Timer.wait_time = rules.get_turn_time()   # 500 ms
 	$AudioStreamPlayer.play()
 	snake.reset_score()
 	
