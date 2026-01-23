@@ -5,9 +5,9 @@ class_name Game
 @onready var tile_map: TileMap = $TileMap
 @onready var lose := $LoseDialog
 @onready var winner := $WinDialog
-
 @onready var music_N: AudioStreamPlayer = $Normal
 @onready var music_H: AudioStreamPlayer = $Hard
+@export_enum("Greedy") var AI_model: int = 0
 
 #Zmienne do odbioru pixeli z pliku graficznego przez TileMap
 const SOURCE_ID := 1
@@ -85,6 +85,9 @@ func win():
 
 #Sterowanie - TEST DZIALA
 func _unhandled_input(event):
+	if GState.AI_enabled:
+		return
+	
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			Key.KEY_UP, Key.KEY_W:
@@ -96,7 +99,6 @@ func _unhandled_input(event):
 			Key.KEY_RIGHT, Key.KEY_D: 
 				snake.request_dir(Types.directions.RIGHT)
 	
-#!!!!TUTAJ JUZ MECHANIKA JAK WSZYSTKO PRZEPLYWA PRZEZ GRE!!!#
 func _ready():
 	AudioMenuManager.stop_music()
 	rng.randomize()	
@@ -127,6 +129,13 @@ func _ready():
 
 func _next_turn() -> void:
 	print("Next turn")	
+
+	if GState.AI_enabled:
+		var dir: Types.directions
+		if AI_model == 0:
+			dir = SnakeAI.choose_dir_greedy(board, snake, fruit, wall)
+		snake.request_dir(dir)
+
 	snake.move_snake()
 	collision()
 	draw_board()
@@ -142,7 +151,10 @@ func _on_Turn_Timer_timeout() -> void:
 	_next_turn()
 
 func ask_restart():
-	$AudioStreamPlayer.stop()
+	if GState.rules.get_turn_time() == 0.5:
+		music_H.stop()
+	if GState.rules.get_turn_time() == 1.0:
+		music_N.stop()
 	lose.dialog_text = "Restartować grę?"
 	lose.popup_centered()
 
@@ -153,7 +165,10 @@ func _on_lose_dialog_confirmed() -> void:
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = rules.get_turn_time()  
-	$AudioStreamPlayer.play()
+	if GState.rules.get_turn_time() == 0.5:
+		music_H.play()
+	if GState.rules.get_turn_time() == 1.0:
+		music_N.play()
 	snake.reset_score()
 
 func _on_lose_dialog_canceled() -> void:
@@ -166,13 +181,19 @@ func _on_win_dialog_confirmed() -> void:
 	Turn_Timer.wait_time = 0.1   # 1000 ms
 	Turn_Timer.start()
 	Turn_Timer.wait_time = rules.get_turn_time()   # 500 ms
-	$AudioStreamPlayer.play()
+	if GState.rules.get_turn_time() == 0.5:
+		music_H.play()
+	if GState.rules.get_turn_time() == 1.0:
+		music_N.play()
 	snake.reset_score()
 	
 func _on_win_dialog_canceled() -> void:
 	get_tree().quit()
 	
 func win_popup():
-	$AudioStreamPlayer.stop()
+	if GState.rules.get_turn_time() == 0.5:
+		music_H.stop()
+	if GState.rules.get_turn_time() == 1.0:
+		music_N.stop()
 	winner.dialog_text = "WYGRAŁES - Chcesz zagrać jeszcze raz?"
 	winner.popup_centered()

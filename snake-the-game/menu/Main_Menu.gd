@@ -12,7 +12,9 @@ func _on_play_pressed() -> void:
 	get_tree().change_scene_to_file("res://menu/Game_Mode.tscn")
 	
 func _on_options_pressed() -> void:
-	get_tree().change_scene_to_file("res://menu/Options.tscn")
+	GState.rules = Rules_Hard.new()
+	GState.AI_enabled = true
+	get_tree().change_scene_to_file("res://game/Game.tscn")
 
 
 func _on_author_pressed() -> void:
