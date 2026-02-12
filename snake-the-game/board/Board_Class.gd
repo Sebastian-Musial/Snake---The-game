@@ -9,6 +9,10 @@ var _size: Vector2i = Vector2i.ZERO
 #Get
 func get_size() -> Vector2i:
 	return _size
+func get_width() -> int:
+	return _size.x
+func get_height() -> int:
+	return _size.y
 #Set
 func set_size(N_size) -> void:
 	_size = N_size

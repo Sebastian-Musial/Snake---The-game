@@ -35,10 +35,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Start game"
 
-[node name="Options" type="Button" parent="CenterContainer/VBoxContainer"]
+[node name="AI play" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Options"
+text = "AI play"
 
 [node name="Author" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -55,6 +55,6 @@ position = Vector2(255, 258)
 texture = ExtResource("3_8010q")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/AI play" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Author" to="." method="_on_author_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

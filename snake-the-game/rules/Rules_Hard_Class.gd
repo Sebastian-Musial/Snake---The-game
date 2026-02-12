@@ -9,7 +9,7 @@ class_name Rules_Hard
 #Set
 #Metody
 func get_board_size() -> Vector2i:	#Taki sam w normal, do zmiany rozmiar później
-	return Vector2i(20, 20)
+	return Vector2i(16, 16)
 
 func get_turn_time() -> float:
 	return 0.5 #Sekundy

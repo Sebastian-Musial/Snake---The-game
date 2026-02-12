@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 AudioMenuManager="*res://AudioMenuManager.tscn"
+GState="*res://GameState.gd"
 
 [display]
 

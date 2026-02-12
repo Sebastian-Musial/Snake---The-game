@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1vngybyiyqlq"]
+[gd_scene load_steps=9 format=3 uid="uid://d1vngybyiyqlq"]
 
 [ext_resource type="Script" uid="uid://dep2hg8wkwgea" path="res://game/Game.gd" id="1_qdja7"]
 [ext_resource type="Texture2D" uid="uid://du57ct4t1rwkl" path="res://TEST_Tiles.png" id="2_m71xk"]
 [ext_resource type="Texture2D" uid="uid://bekksy4a4fd6q" path="res://Graphic.png" id="3_i75et"]
 [ext_resource type="AudioStream" uid="uid://dw6d7x1jkbjva" path="res://Game 120 BPM.ogg" id="3_m71xk"]
+[ext_resource type="AudioStream" uid="uid://b2lan8che83jf" path="res://Game 60 BPM.ogg" id="5_adwu5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u44n3"]
 texture = ExtResource("2_m71xk")
@@ -68,15 +69,18 @@ cancel_button_text = "Nie - Wyjdź z gry"
 ok_button_text = "Tak"
 cancel_button_text = "Nie - Wyjdź z gry"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Hard" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_m71xk")
 volume_db = -10.495
-autoplay = true
 parameters/looping = true
 
 [node name="Score" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
+
+[node name="Normal" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_adwu5")
+parameters/looping = true
 
 [connection signal="timeout" from="TurnTimer" to="." method="_on_Turn_Timer_timeout"]
 [connection signal="canceled" from="LoseDialog" to="." method="_on_lose_dialog_canceled"]
